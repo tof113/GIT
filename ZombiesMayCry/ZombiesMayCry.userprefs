@@ -1,9 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MapGeneration\MeshGenerator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\player\Movements\CameraMovement.cs">
     <Files>
-      <File FileName="Assets\Scripts\MapGeneration\MapGeneration.cs" Line="295" Column="43" />
-      <File FileName="Assets\Scripts\MapGeneration\MeshGenerator.cs" Line="80" Column="4" />
+      <File FileName="Assets\Scripts\MapGeneration\MeshGenerator.cs" Line="115" Column="5" />
+      <File FileName="Assets\Scripts\Spawns\SpawnEnemies.cs" Line="98" Column="43" />
+      <File FileName="Assets\Scripts\Spawns\SpawnPlayer.cs" Line="63" Column="57" />
+      <File FileName="Assets\Scripts\player\Movements\CameraMovement.cs" Line="18" Column="96" />
+      <File FileName="Assets\Scripts\Enemis\EnemiesMovement.cs" Line="16" Column="1" />
+      <File FileName="Assets\Scripts\NavMesh\LocalNavMeshBuilder.cs" Line="8" Column="1" />
+      <File FileName="Assets\Scripts\NavMesh\NavMeshSourceTag.cs" Line="7" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

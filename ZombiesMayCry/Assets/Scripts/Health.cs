@@ -6,25 +6,24 @@ using My.Events;
 public class Health : MonoBehaviour {
 
 
-	public int initHealth;
-	public int currentHealth;
-	public GameObject damageDealer;
+	public float initHealth;
+	public float currentHealth;
 
 	public ObjectBehavioursList dieBehavours;
-	//public ObjectBehavioursList dieDamageDealerBehaviours;
+	public ObjectBehaviour dieDamageDealerBehaviours;
+
+	private GameObject player;
 
 	public ObjectEvent OnDie;
 
 	void OnEnable(){
 		currentHealth = initHealth;
+		player = GameObject.Find ("Player");
 	}
 
 
-	public void TakeDamage(int dmg, GameObject source = null){
+	public void TakeDamage(float dmg){
 		
-		if (source) {
-			damageDealer = source;
-		}
 		currentHealth -= dmg;
 		if (currentHealth <= 0) {
 			Die ();
@@ -32,17 +31,25 @@ public class Health : MonoBehaviour {
 	}
 
 	public void Die(){
-		
-		OnDie.Invoke(damageDealer);
 
+		OnDie.Invoke (player);
 		if (dieBehavours) {
 			dieBehavours.Execute (gameObject);
 
 		}
-		/*if (dieDamageDealerBehaviours) {
-			dieDamageDealerBehaviours.Execute (damageDealer);
-		}*/
+		if (dieDamageDealerBehaviours) {
+			GameObject player = GameObject.Find ("Player");
+			dieDamageDealerBehaviours.Execute (player);
+		}
 
 		
+	}
+
+	public void SetHealth(int bonus){
+
+		currentHealth += bonus;
+		if (currentHealth > initHealth) {
+			currentHealth = initHealth;
+		}
 	}
 }

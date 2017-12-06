@@ -8,23 +8,27 @@ public class CameraMovement : MonoBehaviour {
 
 	Vector3 offset;                     // The initial offset from the target.
 
-	void Start ()
+	IEnumerator Start ()
 	{
+		print ("i try find player");
+		yield return new WaitForSeconds (0.5f);
 		GameObject player = GameObject.Find ("Player");
-		print ("camera");
 
 		if (player) {
 			target = player.transform;
-			transform.position = new Vector3(target.position.x,-target.position.y ,target.position.z -24 );
+			transform.position = new Vector3 (target.position.x, -target.position.y, target.position.z);
 
 			// Calculate the initial offset.
 			offset = transform.position - target.position;
+		} else {
+			print ("no player");
 		}
 
 	}
 
 	void FixedUpdate ()
 	{
+		
 		// Create a postion the camera is aiming for based on the offset from the target.
 		Vector3 targetCamPos = target.position + offset;
 

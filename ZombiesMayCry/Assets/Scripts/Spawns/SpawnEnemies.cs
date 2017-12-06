@@ -9,6 +9,10 @@ public class SpawnEnemies : MonoBehaviour {
 	private int currentEnemies=0;
 	public int maxEnemies;
 	public Poolable enemyPrefab;
+	public Poolable enemyHardPrefab;
+	public Poolable enemyBossPrefab;
+	[Range (0f,100f)]
+	public float difficultyEnemy;// % de wall
 	private int width;
 	private int height;
 	private List<Coord> coordsOfEveryTiles;//toutes les coords de toutes les salles dans la meme liste
@@ -57,13 +61,21 @@ public class SpawnEnemies : MonoBehaviour {
 
 
 	void Spawn(){
-		
 
 		Coord spawnCoord = findPosition (20);
 		if (spawnCoord != null) {
 			Coord test = new Coord (spawnCoord.tileX + 1, (spawnCoord.tileY + 1));
-
-			GameObject obj = enemyPrefab.GetInstance ();
+			float whichEnemy = Random.Range (0f, 100f);
+			GameObject obj = null;
+			if (currentEnemies == maxEnemies - 1) {
+				obj = enemyBossPrefab.GetInstance ();
+				print ("I spawn a MONSTER");
+			}else if (whichEnemy < difficultyEnemy) {
+				
+				obj = enemyHardPrefab.GetInstance ();
+			} else {	
+				obj = enemyPrefab.GetInstance ();
+			}
 			obj.transform.position = CoordToWorldPoint (spawnCoord);
 			obj.transform.rotation = transform.rotation;
 			Debug.DrawLine (CoordToWorldPoint (spawnCoord), CoordToWorldPoint (test), Color.red, 100);
@@ -106,5 +118,7 @@ public class SpawnEnemies : MonoBehaviour {
 			}
 		}
 	}
+
+
 }
 

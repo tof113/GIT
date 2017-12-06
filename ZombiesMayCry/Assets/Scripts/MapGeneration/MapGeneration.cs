@@ -42,11 +42,11 @@ public class MapGeneration : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 		if(Input.GetMouseButton(1)){
 			GenerateMap();
 		}
-	}
+	}*/
 
 	void GenerateMap(){
 		map = new int[width, height];

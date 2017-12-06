@@ -46,16 +46,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Script\Damage.cs" />
-     <Compile Include="Assets\Script\Owner.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\AmmoPickUpBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\DestroyBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\DropBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\HealthBonusBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\ObjectBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\ObjectBehavioursList.cs" />
      <Compile Include="Assets\Scripts\Behaviours\PoolBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\ScoreBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Damage.cs" />
+     <Compile Include="Assets\Scripts\DestroyAfterTime.cs" />
      <Compile Include="Assets\Scripts\DestroyOnCollision.cs" />
      <Compile Include="Assets\Scripts\DropTables\DropTable.cs" />
      <Compile Include="Assets\Scripts\Enemis\EnemiesMovement.cs" />
+     <Compile Include="Assets\Scripts\GameMaster\GameManager.cs" />
+     <Compile Include="Assets\Scripts\GameMaster\PowerLeveling.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
      <Compile Include="Assets\Scripts\MapGeneration\Coord.cs" />
      <Compile Include="Assets\Scripts\MapGeneration\MapGeneration.cs" />
@@ -63,9 +68,13 @@
      <Compile Include="Assets\Scripts\MapGeneration\Room.cs" />
      <Compile Include="Assets\Scripts\NavMesh\LocalNavMeshBuilder.cs" />
      <Compile Include="Assets\Scripts\NavMesh\NavMeshSourceTag.cs" />
+     <Compile Include="Assets\Scripts\PickedUp.cs" />
      <Compile Include="Assets\Scripts\Pooling\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\Pooling\ObjectPoolManager.cs" />
      <Compile Include="Assets\Scripts\Pooling\Poolable.cs" />
+     <Compile Include="Assets\Scripts\Score\Owner.cs" />
+     <Compile Include="Assets\Scripts\Score\SceneLoader.cs" />
+     <Compile Include="Assets\Scripts\Score\TextUpdater.cs" />
      <Compile Include="Assets\Scripts\Singleton\Singleton.cs" />
      <Compile Include="Assets\Scripts\Spawns\SpawnEnemies.cs" />
      <Compile Include="Assets\Scripts\Spawns\SpawnPlayer.cs" />
@@ -75,6 +84,7 @@
      <Compile Include="Assets\Scripts\player\Fire\StraightMovement.cs" />
      <Compile Include="Assets\Scripts\player\Movements\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\player\Movements\KeyboardMoves.cs" />
+     <Compile Include="Assets\Scripts\player\Player.cs" />
      <None Include="Assets\Cours6\Models\Spaceship\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/Programmes/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

@@ -13,6 +13,9 @@ public class Gun : MonoBehaviour {
 
 	private bool isShooting = false;
 
+	//munitions
+	public int maxBullets;
+
 	public void SetShooting(bool mode) {
 		isShooting = mode;
 		StopAllCoroutines ();
@@ -28,14 +31,16 @@ public class Gun : MonoBehaviour {
 		obj.transform.position = transform.position;
 		obj.transform.rotation = transform.rotation;
 		OnFire.Invoke (obj);
-
+		maxBullets--;
 	}
 
 	IEnumerator FireCoroutine() {
 		while (true) {
-			if(isShooting)
+			if(isShooting && maxBullets > 0)
 				Fire ();
 			yield return new WaitForSeconds (fireInterval);
 		}
 	}
+
+
 }

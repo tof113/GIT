@@ -36,6 +36,7 @@ public class SpawnPlayer : MonoBehaviour {
 		GameObject obj = player.GetInstance();
 		obj.transform.position = CoordToWorldPoint (spawnCoord);
 		obj.transform.rotation = transform.rotation;
+		print ("i spawn player");
 		Debug.DrawLine (CoordToWorldPoint (spawnCoord), CoordToWorldPoint (test), Color.blue, 100);
 	}
 		

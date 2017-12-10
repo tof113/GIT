@@ -48,8 +48,10 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Behaviours\AmmoPickUpBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\DestroyBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\DmgUpGradeBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\DropBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\HealthBonusBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\LifeUpGradeBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\ObjectBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\ObjectBehavioursList.cs" />
      <Compile Include="Assets\Scripts\Behaviours\PoolBehaviour.cs" />

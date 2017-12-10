@@ -78,8 +78,9 @@ public class SpawnEnemies : Singleton<SpawnEnemies> {
 
 			GameObject obj = null;
 			if (enemiesSpawned == maxEnemies - 1) {
-				obj = enemyBossPrefab.GetInstance ();
 				print ("I spawn a MONSTER");
+				obj = enemyBossPrefab.GetInstance ();
+
 			}else if (whichEnemy < difficultyEnemy) {
 				obj = enemyHardPrefab.GetInstance ();
 			} else {	

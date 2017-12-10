@@ -28,6 +28,14 @@ public class Gun : MonoBehaviour {
 	void Fire() {
 		//Instantiate (projectilePrefab, transform.position, transform.rotation);
 		GameObject obj = projectilePrefab.GetInstance();
+
+		GameObject player = GameObject.Find ("Player");
+		if (player) {
+			Damage damage = obj.GetComponent<Damage> ();
+			Player p = player.GetComponent<Player> ();
+			damage.dmg = p.damage;
+		}
+
 		obj.transform.position = transform.position;
 		obj.transform.rotation = transform.rotation;
 		OnFire.Invoke (obj);

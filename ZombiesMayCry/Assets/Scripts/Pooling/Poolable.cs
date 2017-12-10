@@ -22,6 +22,7 @@ public class Poolable : MonoBehaviour {
 
 	public GameObject GetInstance() {
 		GameObject obj = ObjectPoolManager.Instance.GetObject (gameObject);
+		print ("my object" + obj.name);
 		obj.GetComponent<Poolable>().SetPooled (false);
 		return obj;
 	}

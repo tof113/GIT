@@ -40,11 +40,16 @@ public class SpawnPlayer : Singleton<SpawnPlayer> {
 		
 		Coord spawnCoord = findPosition ();
 		Coord test = new Coord(spawnCoord.tileX +1,(spawnCoord.tileY +1));
-		GameObject obj = Instantiate (player);;
+		GameObject obj = null;
 
 		//change attribute according to game manager save status !
-		if (!firstTime) {
-			print ("changing stats");
+		if (firstTime) {
+			obj = Instantiate (player);
+
+		} else {
+
+			obj = GameObject.Find ("Player");
+			/*print ("changing stats");
 			//current life
 			GameObject gameMaster = GameObject.Find("GameMaster");
 			Manager manager = gameMaster.GetComponent<Manager> ();
@@ -55,9 +60,8 @@ public class SpawnPlayer : Singleton<SpawnPlayer> {
 				print ("what ?");
 			}
 			Gun playerGun = machineGun.GetComponent<Gun> ();
-			playerGun.maxBullets = manager.ammoLeft;
-
-		} 
+			playerGun.maxBullets = manager.ammoLeft;*/
+		}
 		obj.name = "Player";
 		//add listner to prefab
 
@@ -66,7 +70,6 @@ public class SpawnPlayer : Singleton<SpawnPlayer> {
 
 		obj.transform.position = CoordToWorldPoint (spawnCoord);
 		obj.transform.rotation = transform.rotation;
-		print ("i spawn player");
 		Debug.DrawLine (CoordToWorldPoint (spawnCoord), CoordToWorldPoint (test), Color.blue, 100);
 	}
 		

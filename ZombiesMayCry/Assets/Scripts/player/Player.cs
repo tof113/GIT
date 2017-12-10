@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using My.Events;
 
-public class Player : MonoBehaviour {
+public class Player : Singleton<Player> {
 
 	public int score;
+	public float damage;
 	public IntEvent OnScoreChange;
 
 	void OnEnable(){

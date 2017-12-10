@@ -9,10 +9,6 @@ public class Manager : Singleton<Manager>{
 	//private PowerLeveling powerLevelinglScript;
 	public string gameScene;
 
-	//stats of the player
-	public float lifeLeft;
-	public int ammoLeft;
-
 	// Use this for initialization
 	void Awake() {
 		DontDestroyOnLoad (this);
@@ -34,15 +30,6 @@ public class Manager : Singleton<Manager>{
 
 		spawnPlayer.firstTime = false;
 
-		//save the stats of the player !
-		GameObject player = GameObject.Find("Player");
-		Health health = player.GetComponent<Health> ();
-		lifeLeft = health.currentHealth;
-
-		//ammo
-		GameObject machineGun = player.transform.GetChild (1).gameObject;
-		Gun playerGun = machineGun.GetComponent<Gun> ();
-		ammoLeft = playerGun.maxBullets;
 
 
 		SceneManager.LoadScene (gameScene);

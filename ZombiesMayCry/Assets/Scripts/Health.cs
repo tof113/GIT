@@ -12,27 +12,30 @@ public class Health : MonoBehaviour {
 	public ObjectBehavioursList dieBehavours;
 	public ObjectBehaviour dieDamageDealerBehaviours;
 
-	private GameObject player;
-
-	public ObjectEvent OnDie;
+	public EmptyEvent OnDie;
 
 	void OnEnable(){
 		currentHealth = initHealth;
-		player = GameObject.Find ("Player");
 	}
 
 
 	public void TakeDamage(float dmg){
-		
-		currentHealth -= dmg;
-		if (currentHealth <= 0) {
-			Die ();
-		}
+
+
+			currentHealth -= dmg;
+			if (currentHealth <= 0) {	
+				Die ();
+
+			}
+
 	}
 
 	public void Die(){
 
-		OnDie.Invoke (player);
+		print ("I die for my country");
+
+		OnDie.Invoke ();
+		OnDie.RemoveAllListeners ();
 		if (dieBehavours) {
 			dieBehavours.Execute (gameObject);
 

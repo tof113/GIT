@@ -35,8 +35,8 @@ public class Gun : MonoBehaviour {
 	}
 
 	IEnumerator FireCoroutine() {
-		while (true) {
-			if(isShooting && maxBullets > 0)
+		while (maxBullets > 0) {
+			if(isShooting)
 				Fire ();
 			yield return new WaitForSeconds (fireInterval);
 		}

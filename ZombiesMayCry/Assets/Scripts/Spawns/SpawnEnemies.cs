@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using My.Events;
+using UnityEngine.SceneManagement;
 
 
-public class SpawnEnemies : MonoBehaviour {
+public class SpawnEnemies : Singleton<SpawnEnemies> {
 
 	private List<Room> rooms; // liste des toutes les pieces de la map ! 
-	private int currentEnemies=0;
+	private int enemiesSpawned=0;
+
 	public int maxEnemies;
+	public int enemiesStillAlive;
 	public Poolable enemyPrefab;
 	public Poolable enemyHardPrefab;
 	public Poolable enemyBossPrefab;
@@ -26,8 +30,20 @@ public class SpawnEnemies : MonoBehaviour {
 	public LayerMask layerMaskEnemy;
 	public LayerMask layerMaskPlayer;
 
-	void Start(){
+	public EmptyEvent OnClear;
 
+	void OnEnable(){
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+	void OnDisable(){
+		//SceneManager.sceneLoaded -= OnSceneLoaded;
+		StopCoroutine(SpawnCoroutine ());
+	}
+
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode){
+		//wait a little bit 
+		//yield return new WaitForSeconds (1f);
+		enemiesStillAlive = maxEnemies;
 
 		GameObject map = GameObject.Find ("MapGenerator");
 		if (map) {
@@ -38,22 +54,15 @@ public class SpawnEnemies : MonoBehaviour {
 				height = mapGen.height;
 				rooms = mapGen.survivingRooms;
 
-				print (rooms.ToArray ().Length);
 			}
 		}
 		buildListWithAllCoords ();
 		StartCoroutine (SpawnCoroutine ());
 	}
-	void OnEnable(){
-		//StartCoroutine (SpawnCoroutine ());
-	}	
-
-	void OnDisable(){
-		StopCoroutine(SpawnCoroutine ());
-	}
+		
 
 	IEnumerator SpawnCoroutine(){
-		while (currentEnemies < maxEnemies) {
+		while (enemiesSpawned < maxEnemies) {
 			Spawn ();
 			yield return new WaitForSeconds (Random.Range(minTimeBetweenSpawn,maxTimeBetweenSpawn));
 		}
@@ -64,22 +73,26 @@ public class SpawnEnemies : MonoBehaviour {
 
 		Coord spawnCoord = findPosition (20);
 		if (spawnCoord != null) {
-			Coord test = new Coord (spawnCoord.tileX + 1, (spawnCoord.tileY + 1));
+			//Coord test = new Coord (spawnCoord.tileX + 1, (spawnCoord.tileY + 1));
 			float whichEnemy = Random.Range (0f, 100f);
+
 			GameObject obj = null;
-			if (currentEnemies == maxEnemies - 1) {
+			if (enemiesSpawned == maxEnemies - 1) {
 				obj = enemyBossPrefab.GetInstance ();
 				print ("I spawn a MONSTER");
 			}else if (whichEnemy < difficultyEnemy) {
-				
 				obj = enemyHardPrefab.GetInstance ();
 			} else {	
 				obj = enemyPrefab.GetInstance ();
 			}
+			//add de l'event au prefab permettant le comptage
+			Health objHealth = obj.GetComponent<Health> ();
+			objHealth.OnDie.AddListener (LvlCleared);
+
 			obj.transform.position = CoordToWorldPoint (spawnCoord);
 			obj.transform.rotation = transform.rotation;
-			Debug.DrawLine (CoordToWorldPoint (spawnCoord), CoordToWorldPoint (test), Color.red, 100);
-			currentEnemies++;
+			//Debug.DrawLine (CoordToWorldPoint (spawnCoord), CoordToWorldPoint (test), Color.red, 100);
+			enemiesSpawned++;
 		} else {	
 			print ("no suitable place found");
 		}
@@ -116,6 +129,16 @@ public class SpawnEnemies : MonoBehaviour {
 			foreach (Coord edgeCoord in room.edgeTiles) {
 				coordsOfEveryEdgeTiles.Add (edgeCoord);
 			}
+		}
+	}
+
+	public void LvlCleared(){
+		enemiesStillAlive--;
+
+			
+		if(enemiesStillAlive <= 0 && enemiesSpawned == maxEnemies){	
+			enemiesSpawned = 0;
+			OnClear.Invoke ();
 		}
 	}
 

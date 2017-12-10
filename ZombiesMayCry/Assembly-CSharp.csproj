@@ -55,11 +55,12 @@
      <Compile Include="Assets\Scripts\Behaviours\PoolBehaviour.cs" />
      <Compile Include="Assets\Scripts\Behaviours\ScoreBehaviour.cs" />
      <Compile Include="Assets\Scripts\Damage.cs" />
+     <Compile Include="Assets\Scripts\DamageEnemies.cs" />
      <Compile Include="Assets\Scripts\DestroyAfterTime.cs" />
      <Compile Include="Assets\Scripts\DestroyOnCollision.cs" />
      <Compile Include="Assets\Scripts\DropTables\DropTable.cs" />
      <Compile Include="Assets\Scripts\Enemis\EnemiesMovement.cs" />
-     <Compile Include="Assets\Scripts\GameMaster\GameManager.cs" />
+     <Compile Include="Assets\Scripts\GameMaster\Manager.cs" />
      <Compile Include="Assets\Scripts\GameMaster\PowerLeveling.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
      <Compile Include="Assets\Scripts\MapGeneration\Coord.cs" />

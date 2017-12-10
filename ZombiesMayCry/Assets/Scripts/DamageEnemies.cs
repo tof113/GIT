@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Damage : MonoBehaviour {
+public class DamageEnemies : MonoBehaviour {
 
 	public float dmg;
 
-
-	void OnCollisionEnter(Collision col){
+	void OnCollisionStay(Collision col){
 		//Owner myOwner = gameObject.GetComponent<Owner> ();
 
 		//GameObject damageSource = myOwner ? myOwner.owner : null;
@@ -15,10 +14,8 @@ public class Damage : MonoBehaviour {
 		if (obj) {
 			Health health = obj.GetComponent<Health> ();
 			if (health) {
-				health.TakeDamage (dmg);
+				health.TakeDamage (dmg/4);
 			}
 		}
 	}
-
-
 }

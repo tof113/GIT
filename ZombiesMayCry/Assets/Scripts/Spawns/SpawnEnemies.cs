@@ -5,10 +5,10 @@ using My.Events;
 using UnityEngine.SceneManagement;
 
 
-public class SpawnEnemies : Singleton<SpawnEnemies> {
+public class SpawnEnemies : MonoBehaviour {
 
 	private List<Room> rooms; // liste des toutes les pieces de la map ! 
-	private int enemiesSpawned=0;
+	public int enemiesSpawned;
 
 	public int maxEnemies;
 	public int enemiesStillAlive;
@@ -22,7 +22,17 @@ public class SpawnEnemies : Singleton<SpawnEnemies> {
 	private List<Coord> coordsOfEveryTiles;//toutes les coords de toutes les salles dans la meme liste
 	private List<Coord> coordsOfEveryEdgeTiles;
 
+	private const int BOSS = 3;
+	private const int HARD = 2;
+	private const int NORMAL = 1;
 
+	public float normalEnemyLife =1f;
+	public float hardEnemyLife=2f;
+	public float bossEnemyLife=5f;
+
+
+
+	public float difficulty;
 	public float maxTimeBetweenSpawn = 0.5f;
 	public float minTimeBetweenSpawn = 0.1f;
 	public int minSpawnDistance;
@@ -32,32 +42,31 @@ public class SpawnEnemies : Singleton<SpawnEnemies> {
 
 	public EmptyEvent OnClear;
 
-	void OnEnable(){
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
 	void OnDisable(){
 		//SceneManager.sceneLoaded -= OnSceneLoaded;
 		StopCoroutine(SpawnCoroutine ());
 	}
 
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode){
+	void Start(){
 		//wait a little bit 
 		//yield return new WaitForSeconds (1f);
-		enemiesStillAlive = maxEnemies;
 
-		GameObject map = GameObject.Find ("MapGenerator");
-		if (map) {
+			
+			GameObject map = GameObject.Find ("MapGenerator");
+			if (map) {
 
-			MapGeneration mapGen = map.GetComponent<MapGeneration> ();
-			if (mapGen) {
-				width = mapGen.width;
-				height = mapGen.height;
-				rooms = mapGen.survivingRooms;
-
+				MapGeneration mapGen = map.GetComponent<MapGeneration> ();
+				if (mapGen) {
+					width = mapGen.width;
+					height = mapGen.height;
+					rooms = mapGen.survivingRooms;
+					buildListWithAllCoords ();
+					StartCoroutine (SpawnCoroutine ());
+				}
+			} else {
+				print ("map not found");
 			}
-		}
-		buildListWithAllCoords ();
-		StartCoroutine (SpawnCoroutine ());
+
 	}
 		
 
@@ -70,7 +79,7 @@ public class SpawnEnemies : Singleton<SpawnEnemies> {
 
 
 	void Spawn(){
-
+		int enemyType = NORMAL;
 		Coord spawnCoord = findPosition (20);
 		if (spawnCoord != null) {
 			//Coord test = new Coord (spawnCoord.tileX + 1, (spawnCoord.tileY + 1));
@@ -80,20 +89,43 @@ public class SpawnEnemies : Singleton<SpawnEnemies> {
 			if (enemiesSpawned == maxEnemies - 1) {
 				print ("I spawn a MONSTER");
 				obj = enemyBossPrefab.GetInstance ();
+				enemyType = BOSS;
 
 			}else if (whichEnemy < difficultyEnemy) {
 				obj = enemyHardPrefab.GetInstance ();
+				enemyType = HARD;
 			} else {	
 				obj = enemyPrefab.GetInstance ();
 			}
-			//add de l'event au prefab permettant le comptage
+
 			Health objHealth = obj.GetComponent<Health> ();
+
+			switch (enemyType) {
+			case NORMAL:
+				objHealth.initHealth = normalEnemyLife * difficulty;
+				objHealth.currentHealth = normalEnemyLife * difficulty;
+
+				break;
+			case HARD:
+				objHealth.initHealth = hardEnemyLife * difficulty;
+				objHealth.currentHealth = hardEnemyLife * difficulty;
+
+				break;
+			case BOSS:
+				objHealth.initHealth = bossEnemyLife * difficulty;
+				objHealth.currentHealth = bossEnemyLife * difficulty;
+
+				break;
+
+			}
+			//add de l'event au prefab permettant le comptage
 			objHealth.OnDie.AddListener (LvlCleared);
 
 			obj.transform.position = CoordToWorldPoint (spawnCoord);
 			obj.transform.rotation = transform.rotation;
 			//Debug.DrawLine (CoordToWorldPoint (spawnCoord), CoordToWorldPoint (test), Color.red, 100);
 			enemiesSpawned++;
+
 		} else {	
 			print ("no suitable place found");
 		}
@@ -139,8 +171,14 @@ public class SpawnEnemies : Singleton<SpawnEnemies> {
 			
 		if(enemiesStillAlive <= 0 && enemiesSpawned == maxEnemies){	
 			enemiesSpawned = 0;
-			OnClear.Invoke ();
+			StartCoroutine( Wait ());
+
 		}
+	}
+	IEnumerator Wait(){
+		yield return new WaitForSeconds (3f);
+		print ("I have been cleared");
+		OnClear.Invoke ();
 	}
 
 

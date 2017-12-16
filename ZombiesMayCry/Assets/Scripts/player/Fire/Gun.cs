@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using My.Events;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour {
 
@@ -9,12 +10,24 @@ public class Gun : MonoBehaviour {
 
 	public float fireInterval = 0.1f;
 
-	public ObjectEvent OnFire;
-
 	private bool isShooting = false;
+
+	GameObject moi;
+
+	GameObject player;
+	Player p;
+	public IntEvent OnFire;
 
 	//munitions
 	public int maxBullets;
+	public CanonController arme;
+
+	public void Start(){
+		arme =this.transform.parent.GetComponent<CanonController> ();
+		Debug.Log (arme);	
+		player = GameObject.Find ("Player");
+		p = player.GetComponent<Player> ();
+	}
 
 	public void SetShooting(bool mode) {
 		isShooting = mode;
@@ -28,18 +41,22 @@ public class Gun : MonoBehaviour {
 	void Fire() {
 		//Instantiate (projectilePrefab, transform.position, transform.rotation);
 		GameObject obj = projectilePrefab.GetInstance();
-
-		GameObject player = GameObject.Find ("Player");
 		if (player) {
 			Damage damage = obj.GetComponent<Damage> ();
-			Player p = player.GetComponent<Player> ();
 			damage.dmg = p.damage;
 		}
-
+		
 		obj.transform.position = transform.position;
 		obj.transform.rotation = transform.rotation;
-		OnFire.Invoke (obj);
-		maxBullets--;
+
+		if (arme.currentGun == arme.guns [1]) {
+			maxBullets--;
+			p.ammo--;
+			OnFire.Invoke (maxBullets);
+			ChangeBullets ("" + maxBullets);
+		}else {
+			ChangeBullets ("∞");
+		}
 	}
 
 	IEnumerator FireCoroutine() {
@@ -50,5 +67,7 @@ public class Gun : MonoBehaviour {
 		}
 	}
 
-
+	public void ChangeBullets(string newBullets) {
+		GameObject.Find ("Main Camera").transform.GetChild (0).GetChild (9).gameObject.GetComponent<Text>().text = newBullets;
+	}
 }

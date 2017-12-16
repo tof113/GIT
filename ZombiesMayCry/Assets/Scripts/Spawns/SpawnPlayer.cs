@@ -3,36 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SpawnPlayer : Singleton<SpawnPlayer> {
+public class SpawnPlayer : MonoBehaviour{
 
 	private List<Room> rooms; // liste des toutes les pieces de la map ! 
 
 	public GameObject player;
 	private int width;
 	private int height;
-	public bool firstTime = true;
 
-	void OnEnable(){
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
 
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode){
-		GameObject map = GameObject.Find ("MapGenerator");
-		if (map) {
+	void Start(){
+
+	
+			GameObject map = GameObject.Find ("MapGenerator");
+			if (map) {
 			
-			MapGeneration mapGen = map.GetComponent<MapGeneration> ();
-			if (mapGen) {
-				width = mapGen.width;
-				height = mapGen.height;
-				rooms = mapGen.survivingRooms;
-
+				MapGeneration mapGen = map.GetComponent<MapGeneration> ();
+				if (mapGen) {
+					width = mapGen.width;
+					height = mapGen.height;
+					rooms = mapGen.survivingRooms;
+					Spawn ();
+				}
 			}
-		}
-		Spawn ();
-	}
 
-	void OnDisable(){
-		//SceneManager.sceneLoaded -= OnSceneLoaded;
+
 	}
 
 
@@ -43,26 +38,10 @@ public class SpawnPlayer : Singleton<SpawnPlayer> {
 		GameObject obj = null;
 
 		//change attribute according to game manager save status !
-		if (firstTime) {
-			obj = Instantiate (player);
-
-		} else {
-
-			obj = GameObject.Find ("Player");
-			/*print ("changing stats");
-			//current life
-			GameObject gameMaster = GameObject.Find("GameMaster");
-			Manager manager = gameMaster.GetComponent<Manager> ();
-			obj.GetComponent<Health> ().initHealth = manager.lifeLeft;
-			//current ammo
-			GameObject machineGun = player.transform.GetChild (1).gameObject;
-			if (!machineGun) {
-				print ("what ?");
-			}
-			Gun playerGun = machineGun.GetComponent<Gun> ();
-			playerGun.maxBullets = manager.ammoLeft;*/
-		}
+		obj = Instantiate (player);
 		obj.name = "Player";
+
+
 		//add listner to prefab
 
 		Health objHealth = obj.GetComponent<Health> ();

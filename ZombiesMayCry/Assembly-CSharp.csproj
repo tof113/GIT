@@ -64,6 +64,7 @@
      <Compile Include="Assets\Scripts\Enemis\EnemiesMovement.cs" />
      <Compile Include="Assets\Scripts\GameMaster\Manager.cs" />
      <Compile Include="Assets\Scripts\GameMaster\PowerLeveling.cs" />
+     <Compile Include="Assets\Scripts\GameMaster\SceneLoading.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
      <Compile Include="Assets\Scripts\MapGeneration\Coord.cs" />
      <Compile Include="Assets\Scripts\MapGeneration\MapGeneration.cs" />
@@ -79,11 +80,13 @@
      <Compile Include="Assets\Scripts\Score\SceneLoader.cs" />
      <Compile Include="Assets\Scripts\Score\TextUpdater.cs" />
      <Compile Include="Assets\Scripts\Singleton\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Singleton\SingletonDestroyOnLoad.cs" />
      <Compile Include="Assets\Scripts\Spawns\SpawnEnemies.cs" />
      <Compile Include="Assets\Scripts\Spawns\SpawnPlayer.cs" />
      <Compile Include="Assets\Scripts\player\CustomEvent.cs" />
      <Compile Include="Assets\Scripts\player\Fire\CanonController.cs" />
      <Compile Include="Assets\Scripts\player\Fire\Gun.cs" />
+     <Compile Include="Assets\Scripts\player\Fire\MachineGun.cs" />
      <Compile Include="Assets\Scripts\player\Fire\StraightMovement.cs" />
      <Compile Include="Assets\Scripts\player\Movements\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\player\Movements\KeyboardMoves.cs" />

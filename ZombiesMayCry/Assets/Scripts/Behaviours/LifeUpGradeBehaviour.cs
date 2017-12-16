@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName="Behaviours/DamageBonusBehaviour")]
+[CreateAssetMenu(menuName="Behaviours/LifeBonusBehaviour")]
 public class LifeUpGradeBehaviour : ObjectBehaviour {
 
-	public float damage;
+	public float life;
 
 	#region implemented abstract members of ObjectBehaviour
 	public override void Execute (GameObject obj)
 	{
 		if (obj) {
 			GameObject p = GameObject.Find ("Player");
+			Health health = p.GetComponent<Health> ();
 
-			Player player = p.GetComponent<Player> ();
 
-			player.damage += damage;
+			health.initHealth += life;
 		}
 	}
 	#endregion

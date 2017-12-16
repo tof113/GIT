@@ -13,4 +13,5 @@ namespace My.Events {
 
 	[System.Serializable]
 	public class EmptyEvent: UnityEvent{};
+
 }

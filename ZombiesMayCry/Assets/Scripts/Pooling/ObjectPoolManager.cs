@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPoolManager :Singleton<ObjectPoolManager> {
+public class ObjectPoolManager :SingletonDestroyOnLoad<ObjectPoolManager> {
 
 	private Dictionary<string, ObjectPool> pools = new Dictionary<string, ObjectPool> ();
 

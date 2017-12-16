@@ -12,27 +12,32 @@ public class Health : MonoBehaviour {
 	public ObjectBehavioursList dieBehavours;
 	public ObjectBehaviour dieDamageDealerBehaviours;
 
+	private GameObject player;
+
 	public EmptyEvent OnDie;
+
+	public GameObject healthBar;
 
 	void OnEnable(){
 		currentHealth = initHealth;
+		player = GameObject.Find ("Player");
+		if (this.transform.parent == player) {
+			healthBar = GameObject.Find ("Main Camera").transform.GetChild (0).GetChild (2).gameObject;
+		}
 	}
 
 
 	public void TakeDamage(float dmg){
-
-
-			currentHealth -= dmg;
-			if (currentHealth <= 0) {	
-				Die ();
-
-			}
-
+		
+		currentHealth -= dmg;
+		if(healthBar!=null)
+			SetHealthBar();
+		if (currentHealth <= 0) {
+			Die ();
+		}
 	}
 
 	public void Die(){
-
-		print ("I die for my country");
 
 		OnDie.Invoke ();
 		OnDie.RemoveAllListeners ();
@@ -54,5 +59,16 @@ public class Health : MonoBehaviour {
 		if (currentHealth > initHealth) {
 			currentHealth = initHealth;
 		}
+		if(healthBar!=null)
+			SetHealthBar();
+	}
+
+	public void SetHealthBar(){
+		var myHealth = 0.158f / initHealth * currentHealth;
+		if (Mathf.Sign (myHealth) < 0) {
+			myHealth = 0f;
+		}
+		//met à jour l'affichage avec la vie courrante (entre 0 - 1)
+		healthBar.transform.localScale = new Vector3 (myHealth,healthBar.transform.localScale.y,healthBar.transform.localScale.z);
 	}
 }

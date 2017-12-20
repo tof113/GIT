@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using My.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class SpawnEnemies : MonoBehaviour {
@@ -48,9 +49,6 @@ public class SpawnEnemies : MonoBehaviour {
 	}
 
 	void Start(){
-		//wait a little bit 
-		//yield return new WaitForSeconds (1f);
-
 			
 			GameObject map = GameObject.Find ("MapGenerator");
 			if (map) {
@@ -60,7 +58,9 @@ public class SpawnEnemies : MonoBehaviour {
 					width = mapGen.width;
 					height = mapGen.height;
 					rooms = mapGen.survivingRooms;
-					buildListWithAllCoords ();
+					BuildListWithAllCoords ();
+					//DisplayMap ();
+					//DisplayEdges ();
 					StartCoroutine (SpawnCoroutine ());
 				}
 			} else {
@@ -80,8 +80,9 @@ public class SpawnEnemies : MonoBehaviour {
 
 	void Spawn(){
 		int enemyType = NORMAL;
-		Coord spawnCoord = findPosition (20);
+		Coord spawnCoord = FindPosition (20);
 		if (spawnCoord != null) {
+			
 			//Coord test = new Coord (spawnCoord.tileX + 1, (spawnCoord.tileY + 1));
 			float whichEnemy = Random.Range (0f, 100f);
 
@@ -96,6 +97,7 @@ public class SpawnEnemies : MonoBehaviour {
 				enemyType = HARD;
 			} else {	
 				obj = enemyPrefab.GetInstance ();
+
 			}
 
 			Health objHealth = obj.GetComponent<Health> ();
@@ -122,10 +124,9 @@ public class SpawnEnemies : MonoBehaviour {
 			objHealth.OnDie.AddListener (LvlCleared);
 
 			obj.transform.position = CoordToWorldPoint (spawnCoord);
-			obj.transform.rotation = transform.rotation;
-			//Debug.DrawLine (CoordToWorldPoint (spawnCoord), CoordToWorldPoint (test), Color.red, 100);
+			//Debug.DrawLine (CoordToWorldPoint (spawnCoord), CoordToWorldPoint (test), Color.red, 20)
 			enemiesSpawned++;
-
+			ChangeTextZombies ("" + enemiesStillAlive);
 		} else {	
 			print ("no suitable place found");
 		}
@@ -133,7 +134,7 @@ public class SpawnEnemies : MonoBehaviour {
 	}
 		
 
-	Coord findPosition(int maxAttemps){
+	Coord FindPosition(int maxAttemps){
 		for (int i = 0; i < maxAttemps; i++) {
 			int random = Random.Range (0, coordsOfEveryTiles.Count);
 			Coord tile = coordsOfEveryTiles [random];
@@ -152,7 +153,7 @@ public class SpawnEnemies : MonoBehaviour {
 		return new Vector3 (-width / 2 + 0.5f + tile.tileX, -6, -height / 2 + 0.5f + tile.tileY);
 	}
 
-	void buildListWithAllCoords(){
+	void BuildListWithAllCoords(){
 		coordsOfEveryTiles = new List<Coord> ();
 		coordsOfEveryEdgeTiles = new List<Coord> ();
 		foreach (Room room in rooms) {
@@ -167,6 +168,7 @@ public class SpawnEnemies : MonoBehaviour {
 
 	public void LvlCleared(){
 		enemiesStillAlive--;
+		ChangeTextZombies ("" + enemiesStillAlive);
 
 			
 		if(enemiesStillAlive <= 0 && enemiesSpawned == maxEnemies){	
@@ -179,6 +181,24 @@ public class SpawnEnemies : MonoBehaviour {
 		yield return new WaitForSeconds (3f);
 		print ("I have been cleared");
 		OnClear.Invoke ();
+	}
+
+	void DisplayMap(){
+		foreach (Coord c in coordsOfEveryTiles) {
+			Coord test = new Coord (c.tileX + 1, (c.tileY + 1));
+			Debug.DrawLine (CoordToWorldPoint (c), CoordToWorldPoint (test), Color.cyan, 10);
+		}
+	}
+
+	void DisplayEdges(){
+		foreach (Coord c in coordsOfEveryEdgeTiles) {
+			Coord test = new Coord (c.tileX + 1, (c.tileY + 1));
+			Debug.DrawLine (CoordToWorldPoint (c), CoordToWorldPoint (test), Color.gray, 10);
+		}
+	}
+
+	public void ChangeTextZombies(string newText){
+		GameObject.Find ("Main Camera").transform.GetChild (0).GetChild (7).gameObject.GetComponent<Text> ().text = newText;
 	}
 
 

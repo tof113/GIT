@@ -16,7 +16,7 @@ public class CameraMovement : MonoBehaviour {
 
 		if (player) {
 			target = player.transform;
-			transform.position = new Vector3 (target.position.x, -target.position.y, target.position.z);
+			transform.position = new Vector3 (target.position.x, +10, target.position.z);
 
 			// Calculate the initial offset.
 			offset = transform.position - target.position;

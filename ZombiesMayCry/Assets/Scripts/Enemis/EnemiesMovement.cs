@@ -17,11 +17,16 @@ public class EnemiesMovement : MonoBehaviour {
 		//playerHealth = player.GetComponent <PlayerHealth> ();
 		//enemyHealth = GetComponent <EnemyHealth> ();
 		nav = GetComponent <NavMeshAgent> ();
+		gameObject.GetComponent <NavMeshAgent> ().enabled = false;
+
 	}
 
 
 	void Update ()
 	{
+		if (gameObject.GetComponent <NavMeshAgent> ().enabled == false) {
+			gameObject.GetComponent <NavMeshAgent> ().enabled = true;
+		}
 		// If the enemy and the player have health left...
 		//if(enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
 		//{

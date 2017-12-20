@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
+	public int highScore;
 	public int score;
 	public float damage;
 	public int ammo;
@@ -16,12 +17,16 @@ public class Player : MonoBehaviour {
 
 	void OnEnable(){
 		SetScore (0);
-		ChangeText("" + score);
+		highScore = PlayerPrefs.GetInt ("highScore");
+		ChangeText("" + score,""+highScore);
 	}
 
 	public void SetScore(int newScore){
 		score = newScore;
-		ChangeText("" + score);
+		if (score > highScore) {
+			highScore = score;
+		}
+		ChangeText("" + score, "" +highScore);
 		OnScoreChange.Invoke (score);
 	}
 
@@ -29,8 +34,9 @@ public class Player : MonoBehaviour {
 		SetScore(score += additionalScore);
 	}
 
-	public void ChangeText(string newText) {
+	public void ChangeText(string newText,string hs) {
 		GameObject.Find ("Main Camera").transform.GetChild (0).GetChild (5).gameObject.GetComponent<Text>().text = newText;
+		GameObject.Find ("Main Camera").transform.GetChild (0).GetChild (11).gameObject.GetComponent<Text>().text = hs;
 	}
 
 	public void ChangeAmmo(int currentAmmo){

@@ -38,6 +38,7 @@ public class MapGeneration : MonoBehaviour {
 
 	// Use this for initialization
 	void OnEnable () {
+		randomFillPercent = UnityEngine.Random.Range (45, 52);
 		GenerateMap ();
 	}
 	
@@ -294,7 +295,7 @@ public class MapGeneration : MonoBehaviour {
 	 */ 
 	void CreatePassage(Room roomA, Room roomB, Coord tileA, Coord tileB){
 		Room.ConnectRooms (roomA, roomB);
-		Debug.DrawLine (CoordToWorldPoint (tileA), CoordToWorldPoint (tileB), Color.green, 100);
+		//Debug.DrawLine (CoordToWorldPoint (tileA), CoordToWorldPoint (tileB), Color.green, 100);
 
 		List<Coord> line = GetLine (tileA, tileB);
 		foreach (Coord c in line) {

@@ -91,6 +91,7 @@
      <Compile Include="Assets\Scripts\player\Movements\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\player\Movements\KeyboardMoves.cs" />
      <Compile Include="Assets\Scripts\player\Player.cs" />
+     <Compile Include="Assets\test.cs" />
      <None Include="Assets\Cours6\Models\Spaceship\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/Programmes/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

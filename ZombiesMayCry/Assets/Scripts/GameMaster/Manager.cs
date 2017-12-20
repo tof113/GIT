@@ -56,6 +56,7 @@ public class Manager : Singleton<Manager>{
 		//spawnEnemies.OnClear.RemoveAllListeners ();
 		print ("lvl won");
 		SavePlayerStats ();
+		SaveHS ();
 		//tell the player spawner not to use the default stats of the player but customs ones !
 		/*GameObject spawn = GameObject.Find ("PlayerSpawner");
 		SpawnPlayer spawnPlayer = spawn.GetComponent<SpawnPlayer> ();*/
@@ -65,7 +66,7 @@ public class Manager : Singleton<Manager>{
 	}
 
 	public void GameOver(){
-
+		SaveHS ();
 		SceneManager.LoadScene (gameOverMenu);
 		print ("GameOver - YOU DIE");
 		Destroy(this);
@@ -80,6 +81,7 @@ public class Manager : Singleton<Manager>{
 		yield return new WaitForSeconds (1f);
 		//everythings related to EnemySpawner
 		enemySpawner  = GameObject.Find ("EnemySpawner");
+
 		while (!enemySpawner) {
 			enemySpawner  = GameObject.Find ("EnemySpawner");
 			yield return new WaitForSeconds (1f);
@@ -129,9 +131,13 @@ public class Manager : Singleton<Manager>{
 		health.currentHealth = currentHealth;
 		health.initHealth = maxHealth;
 		player.score = score;
+
+		player.ChangeText ("" + score, "" + player.highScore);
+		health.SetHealthBar ();
 	}
 
 	void OnDestroy(){
+		SaveHS ();
 		print ("was destroyed");
 	}
 
@@ -140,4 +146,9 @@ public class Manager : Singleton<Manager>{
 		print ("I have been cleared");
 	}
 
+	void SaveHS(){
+		Player player = GameObject.Find ("Player").GetComponent<Player> ();
+		PlayerPrefs.SetInt ("highScore", player.highScore);
+		PlayerPrefs.Save ();
+	}
 }

@@ -45,7 +45,8 @@ public class Gun : MonoBehaviour {
 			Damage damage = obj.GetComponent<Damage> ();
 			damage.dmg = p.damage;
 		}
-		
+		AudioSource bang = GetComponent<AudioSource> ();
+		bang.Play ();
 		obj.transform.position = transform.position;
 		obj.transform.rotation = transform.rotation;
 

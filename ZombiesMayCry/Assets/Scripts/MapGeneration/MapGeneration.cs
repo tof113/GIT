@@ -38,7 +38,7 @@ public class MapGeneration : MonoBehaviour {
 
 	// Use this for initialization
 	void OnEnable () {
-		randomFillPercent = UnityEngine.Random.Range (45, 52);
+		randomFillPercent = UnityEngine.Random.Range (46, 53);
 		GenerateMap ();
 	}
 	

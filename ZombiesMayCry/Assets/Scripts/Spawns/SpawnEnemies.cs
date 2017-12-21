@@ -32,7 +32,7 @@ public class SpawnEnemies : MonoBehaviour {
 	public float bossEnemyLife=5f;
 
 
-
+	public int bossSpawnRate;
 	public float difficulty;
 	public float maxTimeBetweenSpawn = 0.5f;
 	public float minTimeBetweenSpawn = 0.1f;
@@ -87,7 +87,7 @@ public class SpawnEnemies : MonoBehaviour {
 			float whichEnemy = Random.Range (0f, 100f);
 
 			GameObject obj = null;
-			if (enemiesSpawned == maxEnemies - 1) {
+			if (whichEnemy < bossSpawnRate*difficulty || enemiesSpawned == maxEnemies - 1) {
 				print ("I spawn a MONSTER");
 				obj = enemyBossPrefab.GetInstance ();
 				enemyType = BOSS;

@@ -13,6 +13,8 @@ public class Manager : Singleton<Manager>{
 	public int nbEnemiesPerWaves;
 	public float enemyDifficulty;
 	public bool inMenu;
+	public float minSpawnTime;
+	public float maxSpawnTime;
 
 	GameObject enemySpawner;
 	SpawnEnemies spawnEnemies;
@@ -37,7 +39,9 @@ public class Manager : Singleton<Manager>{
 	}
 
 	public void Play (){
-		SceneManager.LoadScene (gameScene);
+		StartCoroutine (WaitBeforePlay ());
+		//PlayerPrefs.DeleteAll ();
+
 		StartCoroutine( InitLevel());
 	}
 
@@ -101,6 +105,14 @@ public class Manager : Singleton<Manager>{
 		if (currentLevel > 1) {
 			LoadPlayerStats ();
 		}
+		if (minSpawnTime > 0.2f) {
+			minSpawnTime -= 0.1f;
+			spawnEnemies.minTimeBetweenSpawn = minSpawnTime;
+		}
+		if (maxSpawnTime > 0.5f) {
+			maxSpawnTime -= 0.1f;
+			spawnEnemies.maxTimeBetweenSpawn = maxSpawnTime;
+		}
 	}
 
 	void SavePlayerStats(){
@@ -135,11 +147,7 @@ public class Manager : Singleton<Manager>{
 		player.ChangeText ("" + score, "" + player.highScore);
 		health.SetHealthBar ();
 	}
-
-	void OnDestroy(){
-		SaveHS ();
-		print ("was destroyed");
-	}
+		
 
 	IEnumerator Find(){
 		yield return new WaitForSeconds (1f);
@@ -150,5 +158,10 @@ public class Manager : Singleton<Manager>{
 		Player player = GameObject.Find ("Player").GetComponent<Player> ();
 		PlayerPrefs.SetInt ("highScore", player.highScore);
 		PlayerPrefs.Save ();
+	}
+
+	IEnumerator WaitBeforePlay(){
+		yield return new WaitForSeconds (1f);
+		SceneManager.LoadScene (gameScene);
 	}
 }

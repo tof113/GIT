@@ -53,7 +53,7 @@ public class Health : MonoBehaviour {
 		
 	}
 
-	public void SetHealth(int bonus){
+	public void SetHealth(float bonus){
 
 		currentHealth += bonus;
 		if (currentHealth > initHealth) {

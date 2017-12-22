@@ -1,0 +1,28 @@
+Fonctionnalités :
+
+Génération de map aléatoire : fini
+
+Mouvement du player (+tir) : fini 
+
+Gestion de la caméra : fini
+
+Mouvement intelligent enemi : fini
+
+Spawn player et enemi aléatoire : fini
+
+Gestion de la vie (player et enemi) : fini
+
+Enemi attaque : fini
+
+Gestion du loot aléatoire ramassage + diversifier loot : fini (ajouter plus si le temps le permet)
+
+Plusieurs armes/ changement d'arme : fini
+
+Progression de niveau : fini
+
+Balancing : en attente
+
+Ui lancement/fin de jeu/changement lvl/score : fini
+
+esthétique/ambiance : obectifs atteints
+

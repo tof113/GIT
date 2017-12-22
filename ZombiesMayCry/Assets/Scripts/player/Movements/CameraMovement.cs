@@ -5,12 +5,12 @@ public class CameraMovement : MonoBehaviour {
 
 	public Transform target;            // The position that that camera will be following.
 	public float smoothing = 5f;        // The speed with which the camera will be following.
-
+	GameObject player;
 	Vector3 offset;                     // The initial offset from the target.
 
 	IEnumerator Start ()
 	{
-		print ("i try find player");
+
 		yield return new WaitForSeconds (0.5f);
 		GameObject player = GameObject.Find ("Player");
 

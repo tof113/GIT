@@ -116,7 +116,7 @@ public class MapGeneration : MonoBehaviour {
 	}
 
 	/*
-	 * return le nombre de voisins ui sont des mur
+	 * return le nombre de voisins qui sont des mur
 	 */
 	int GetSurroundingWallCount(int gridX, int gridY){
 		int wallCount = 0;

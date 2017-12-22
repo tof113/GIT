@@ -4,6 +4,7 @@ using UnityEngine;
 using My.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 
 public class SpawnEnemies : MonoBehaviour {
@@ -49,26 +50,26 @@ public class SpawnEnemies : MonoBehaviour {
 	}
 
 	void Start(){
-			
-			GameObject map = GameObject.Find ("MapGenerator");
-			if (map) {
 
-				MapGeneration mapGen = map.GetComponent<MapGeneration> ();
-				if (mapGen) {
-					width = mapGen.width;
-					height = mapGen.height;
-					rooms = mapGen.survivingRooms;
-					BuildListWithAllCoords ();
-					//DisplayMap ();
-					//DisplayEdges ();
-					StartCoroutine (SpawnCoroutine ());
-				}
-			} else {
-				print ("map not found");
+		GameObject map = GameObject.Find ("MapGenerator");
+		if (map) {
+
+			MapGeneration mapGen = map.GetComponent<MapGeneration> ();
+			if (mapGen) {
+				width = mapGen.width;
+				height = mapGen.height;
+				rooms = mapGen.survivingRooms;
+				BuildListWithAllCoords ();
+				//DisplayMap ();
+				//DisplayEdges ();
+				StartCoroutine (SpawnCoroutine ());
 			}
+		} else {
+			print ("map not found");
+		}
 
 	}
-		
+
 
 	IEnumerator SpawnCoroutine(){
 		while (enemiesSpawned < maxEnemies) {
@@ -82,13 +83,12 @@ public class SpawnEnemies : MonoBehaviour {
 		int enemyType = NORMAL;
 		Coord spawnCoord = FindPosition (20);
 		if (spawnCoord != null) {
-			
+
 			//Coord test = new Coord (spawnCoord.tileX + 1, (spawnCoord.tileY + 1));
 			float whichEnemy = Random.Range (0f, 100f);
 
 			GameObject obj = null;
 			if (whichEnemy < bossSpawnRate*difficulty || enemiesSpawned == maxEnemies - 1) {
-				print ("I spawn a MONSTER");
 				obj = enemyBossPrefab.GetInstance ();
 				enemyType = BOSS;
 
@@ -122,8 +122,10 @@ public class SpawnEnemies : MonoBehaviour {
 			}
 			//add de l'event au prefab permettant le comptage
 			objHealth.OnDie.AddListener (LvlCleared);
-
-			obj.transform.position = CoordToWorldPoint (spawnCoord);
+			NavMeshAgent nav = obj.GetComponent<NavMeshAgent> ();
+			Vector3 position = CoordToWorldPoint (spawnCoord);
+			//obj.transform.position = position;
+			nav.Warp (position);
 			//Debug.DrawLine (CoordToWorldPoint (spawnCoord), CoordToWorldPoint (test), Color.red, 20)
 			enemiesSpawned++;
 			ChangeTextZombies ("" + enemiesStillAlive);
@@ -132,7 +134,7 @@ public class SpawnEnemies : MonoBehaviour {
 		}
 
 	}
-		
+
 
 	Coord FindPosition(int maxAttemps){
 		for (int i = 0; i < maxAttemps; i++) {
@@ -143,9 +145,7 @@ public class SpawnEnemies : MonoBehaviour {
 				&& Physics.OverlapSphere (CoordToWorldPoint(tile), minSpawnDistanceToPlayer, layerMaskPlayer).Length ==0) {//pas le long du mur
 				return tile;
 			}
-			print ("zombi at this location ^^");
 		}
-		print ("too much zombies already ^^");
 		return null;
 	}
 
@@ -170,7 +170,7 @@ public class SpawnEnemies : MonoBehaviour {
 		enemiesStillAlive--;
 		ChangeTextZombies ("" + enemiesStillAlive);
 
-			
+
 		if(enemiesStillAlive <= 0 && enemiesSpawned == maxEnemies){	
 			enemiesSpawned = 0;
 			StartCoroutine( Wait ());
@@ -179,7 +179,6 @@ public class SpawnEnemies : MonoBehaviour {
 	}
 	IEnumerator Wait(){
 		yield return new WaitForSeconds (3f);
-		print ("I have been cleared");
 		OnClear.Invoke ();
 	}
 

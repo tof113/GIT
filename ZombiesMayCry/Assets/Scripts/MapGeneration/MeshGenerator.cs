@@ -23,7 +23,7 @@ public class MeshGenerator : MonoBehaviour {
 	HashSet<int> checkedVertecies = new HashSet<int> ();
 
 	/*
-	 * Genere les mash de la map
+	 * Genere les mesh de la map
 	 */ 
 	public void GenerateMesh(int[,] map, float squareSize){
 		outlines.Clear ();

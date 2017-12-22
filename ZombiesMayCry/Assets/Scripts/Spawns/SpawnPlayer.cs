@@ -65,10 +65,7 @@ public class SpawnPlayer : MonoBehaviour{
 					return tile;
 				}
 			}
-		} else {
-			print ("no room?");
 		}
-		print ("buuuug");
 		return null;
 	}
 

@@ -14,15 +14,6 @@ public class SceneLoading : MonoBehaviour {
 		SceneManager.LoadScene (startMenu);
 	}
 
-	/*public  void LevelWon(){
-		SceneManager.LoadScene (menu);
-	}*/
-
-	/*public void NextLvl(){
-		SceneManager.LoadScene (gameScene);
-
-	}*/
-
 	public void GameOver(){
 
 		SceneManager.LoadScene (gameOverMenu);

@@ -12,14 +12,13 @@ public class Manager : Singleton<Manager>{
 	public string gameOverMenu;
 	public int nbEnemiesPerWaves;
 	public float enemyDifficulty;
-	public bool inMenu;
 	public float minSpawnTime;
 	public float maxSpawnTime;
 
 	GameObject enemySpawner;
 	SpawnEnemies spawnEnemies;
 
-	//stats of the player !
+	//stats of the player 
 	public float maxHealth;
 	public float currentHealth;
 	public float dmg;
@@ -29,41 +28,21 @@ public class Manager : Singleton<Manager>{
 	void Awake(){
 		DontDestroyOnLoad (this);
 	}
-
-	void Start(){
-		/*playerSpawner = GameObject.Find ("PlayerSpawner");
-		spawnPlayer = playerSpawner.GetComponent<SpawnPlayer> ();
-		enemySpawner  = GameObject.Find ("EnemySpawner");
-		spawnEnemies = enemySpawner.GetComponent<SpawnEnemies> ();*/
-
-	}
+		
 
 	public void Play (){
 		StartCoroutine (WaitBeforePlay ());
-		//PlayerPrefs.DeleteAll ();
 
 		StartCoroutine( InitLevel());
 	}
-
-	/*public  void LevelWon(){
-
-		//SavePlayerStats ();
-		//SceneManager.LoadScene (menu);
-		//GameObject playButton = GameObject.Find ("PlayButton");
-		//NextLvl();
-
-	}*/
+		
 
 	public void NextLvl(){
 		StopAllCoroutines ();
 		currentLevel++;
-		//spawnEnemies.OnClear.RemoveAllListeners ();
 		print ("lvl won");
 		SavePlayerStats ();
 		SaveHS ();
-		//tell the player spawner not to use the default stats of the player but customs ones !
-		/*GameObject spawn = GameObject.Find ("PlayerSpawner");
-		SpawnPlayer spawnPlayer = spawn.GetComponent<SpawnPlayer> ();*/
 
 		SceneManager.LoadScene (gameScene);
 		StartCoroutine( InitLevel());
@@ -76,10 +55,7 @@ public class Manager : Singleton<Manager>{
 		Destroy(this);
 
 	}
-
-	/*public void Quit(){
-		Application.Quit ();s
-	}*/
+		
 
 	IEnumerator InitLevel(){
 		yield return new WaitForSeconds (1f);
@@ -107,12 +83,14 @@ public class Manager : Singleton<Manager>{
 		}
 		if (minSpawnTime > 0.2f) {
 			minSpawnTime -= 0.1f;
-			spawnEnemies.minTimeBetweenSpawn = minSpawnTime;
 		}
+			spawnEnemies.minTimeBetweenSpawn = minSpawnTime;
+		
 		if (maxSpawnTime > 0.5f) {
 			maxSpawnTime -= 0.1f;
-			spawnEnemies.maxTimeBetweenSpawn = maxSpawnTime;
 		}
+			spawnEnemies.maxTimeBetweenSpawn = maxSpawnTime;
+		
 	}
 
 	void SavePlayerStats(){
@@ -149,10 +127,7 @@ public class Manager : Singleton<Manager>{
 	}
 		
 
-	IEnumerator Find(){
-		yield return new WaitForSeconds (1f);
-		print ("I have been cleared");
-	}
+
 
 	void SaveHS(){
 		Player player = GameObject.Find ("Player").GetComponent<Player> ();
